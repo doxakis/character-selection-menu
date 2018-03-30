@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <style>
+            .grid-container {
+                display: grid;
+                align-items: stretch;
+            }
+            .grid-element {
+                background-color: lime;
+                padding: 2px;
+                color: #fff;
+                border: 2px solid #fff;
+            }
+            .container {
+                max-width: 1000px;
+                margin: auto;
+            }
+        </style>
+
+        <div class="container">
+            <div id="grid" class="grid-container" style="">
+                <script>
+                    // Load some images.
+                    for (var n = 0; n < 3; n++) {
+                        for (var i = 1; i <= 22; i++)
+                        {
+                            document.write("<img class='grid-element' style='width:100%;' src='asserts/character"+i+".png' />");
+                        }
+                    }
+                </script>
+            </div>
+        </div>
+        <script>
+            (function () {
+                // const.
+                var maxWidthForImage = 100; // px
+                var maxHeightForContainer = 600; // px
+                var speed = 5; // ms.
+
+                // Current width for image.
+                var curWidth = maxWidthForImage;
+
+                function check() {
+                    var grid = document.getElementById("grid");
+                    if (grid.offsetHeight > maxHeightForContainer)
+                    {
+                        curWidth--;
+                    }
+                    grid.style["grid-template-columns"] = "repeat(auto-fill, minmax("+curWidth+"px, 1fr))";
+
+                    setTimeout(check, speed);
+                }
+                setTimeout(check, speed);
+
+                function resizedw(){
+                    // Haven't resized in 500ms!
+                    // It prevents flickering.
+                    curWidth = maxWidthForImage;
+                }
+
+                var doit;
+                window.onresize = function(){
+                    clearTimeout(doit);
+                    doit = setTimeout(resizedw, 500);
+                };
+            })();
+        </script>
+    </body>
+</html>
